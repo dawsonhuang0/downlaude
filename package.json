@@ -1,6 +1,6 @@
 {
 	"name": "downlaude",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "CLI to check Claude's service status from your terminal.",
 	"license": "MIT",
 	"author": "Dawson Huang",
