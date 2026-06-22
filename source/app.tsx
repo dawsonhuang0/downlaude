@@ -21,17 +21,7 @@ export default function App({all = false}: {all?: boolean}) {
   const [components, setComponents] = useState<any[]>([]);
   const [done, setDone] = useState(false);
   const [error, setError] = useState(false);
-  const [terminalWidth, setTerminalWidth] = useState(
-    process.stdout.columns ?? 80,
-  );
-
-  useEffect(() => {
-    const onResize = () => setTerminalWidth(process.stdout.columns ?? 80);
-    process.stdout.on('resize', onResize);
-    return () => {
-      process.stdout.off('resize', onResize);
-    };
-  }, []);
+  const terminalWidth = process.stdout.columns ?? 80;
 
   useEffect(() => {
     async function init() {
