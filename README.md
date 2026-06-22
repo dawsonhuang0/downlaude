@@ -1,8 +1,8 @@
 # downlaude
 
-> CLI to check Claude's service status from your terminal
+<img src="demo.png" width="600" />
 
-![demo](demo.png)
+> CLI to check Claude's service status from your terminal
 
 ## Install
 
