@@ -22,7 +22,7 @@ export default function Spinner({text, theme}: {text: string; theme: Theme}) {
 
   useEffect(() => {
     const startTime = Date.now();
-    const interval = setInterval(() => setTime(Date.now() - startTime), 10);
+    const interval = setInterval(() => setTime(Date.now() - startTime), 50);
     return () => clearInterval(interval);
   }, []);
 
