@@ -22,7 +22,7 @@ downlaude --silent # no output; use exit code in scripts
 
 | Flag | Description |
 |------|-------------|
-| `--all`<br>`-a` | Show all Claude services (claude.ai, Claude Console, Claude API, Claude Code, Claude Cowork, Claude for Government) |
+| `--all`<br>`-a` | Show all Claude services |
 | `--silent`<br>`-s` | No output. Exit `0` if operational, `1` if outage, `2` if unreachable |
 | `--help`<br>`-h` | Show help |
 
