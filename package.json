@@ -1,99 +1,101 @@
 {
-	"name": "downlaude",
-	"version": "1.1.1",
-	"description": "CLI to check Claude's service status from your terminal.",
-	"license": "MIT",
-	"author": "Dawson Huang",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/dawsonhuang0/downlaude.git"
-	},
-	"bugs": {
-		"url": "https://github.com/dawsonhuang0/downlaude/issues"
-	},
-	"homepage": "https://github.com/dawsonhuang0/downlaude#readme",
-	"keywords": [
-		"claude",
-		"anthropic",
-		"status",
-		"cli",
-		"terminal",
-		"downlaude",
-		"claude-ai",
-		"claude-api",
-		"claude-code",
-		"claude-status",
-		"status-checker",
-		"status-page",
-		"uptime",
-		"uptime-monitor",
-		"outage",
-		"outage-detector",
-		"monitor",
-		"monitoring",
-		"health-check",
-		"ink",
-		"tui",
-		"command-line",
-		"devtools",
-		"developer-tools",
-		"productivity",
-		"ai",
-		"ai-status",
-		"llm",
-		"llm-status",
-		"api-status",
-		"scripting",
-		"automation"
-	],
-	"bin": "dist/cli.js",
-	"type": "module",
-	"engines": {
-		"node": ">=16"
-	},
-	"scripts": {
-		"build": "tsc",
-		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava"
-	},
-	"files": [
-		"dist"
-	],
-	"dependencies": {
-		"ink": "^4.1.0",
-		"ink-spinner": "^5.0.0",
-		"react": "^18.2.0"
-	},
-	"devDependencies": {
-		"@sindresorhus/tsconfig": "^3.0.1",
-		"@types/react": "^18.0.32",
-		"@vdemedes/prettier-config": "^2.0.1",
-		"ava": "^5.2.0",
-		"chalk": "^5.2.0",
-		"eslint-config-xo-react": "^0.27.0",
-		"eslint-plugin-react": "^7.32.2",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"ink-testing-library": "^3.0.0",
-		"prettier": "^2.8.7",
-		"ts-node": "^10.9.1",
-		"typescript": "^5.0.3",
-		"xo": "^0.53.1"
-	},
-	"ava": {
-		"extensions": {
-			"ts": "module",
-			"tsx": "module"
-		},
-		"nodeArguments": [
-			"--loader=ts-node/esm"
-		]
-	},
-	"xo": {
-		"extends": "xo-react",
-		"prettier": true,
-		"rules": {
-			"react/prop-types": "off"
-		}
-	},
-	"prettier": "@vdemedes/prettier-config"
+  "name": "downlaude",
+  "version": "1.1.1",
+  "description": "CLI to check Claude's service status from your terminal.",
+  "license": "MIT",
+  "author": "Dawson Huang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawsonhuang0/downlaude.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dawsonhuang0/downlaude/issues"
+  },
+  "homepage": "https://github.com/dawsonhuang0/downlaude#readme",
+  "keywords": [
+    "claude",
+    "anthropic",
+    "status",
+    "cli",
+    "terminal",
+    "downlaude",
+    "claude-ai",
+    "claude-api",
+    "claude-code",
+    "claude-status",
+    "status-checker",
+    "status-page",
+    "uptime",
+    "uptime-monitor",
+    "outage",
+    "outage-detector",
+    "monitor",
+    "monitoring",
+    "health-check",
+    "ink",
+    "tui",
+    "command-line",
+    "devtools",
+    "developer-tools",
+    "productivity",
+    "ai",
+    "ai-status",
+    "llm",
+    "llm-status",
+    "api-status",
+    "scripting",
+    "automation"
+  ],
+  "bin": "dist/cli.js",
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "lint": "prettier --check . && xo"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "ink": "^4.1.0",
+    "ink-spinner": "^5.0.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@sindresorhus/tsconfig": "^3.0.1",
+    "@types/react": "^18.0.32",
+    "eslint-config-xo-react": "^0.27.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "ink-testing-library": "^3.0.0",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.3",
+    "vitest": "^2.1.9",
+    "xo": "^0.53.1"
+  },
+  "xo": {
+    "extends": "xo-react",
+    "prettier": true,
+    "rules": {
+      "react/prop-types": "off",
+      "unicorn/expiring-todo-comments": "off"
+    },
+    "ignores": [
+      "test.tsx"
+    ]
+  },
+  "prettier": {
+    "useTabs": false,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "as-needed",
+    "bracketSpacing": false,
+    "arrowParens": "avoid",
+    "trailingComma": "all"
+  }
 }
