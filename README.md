@@ -1,6 +1,6 @@
 # downlaude
 
-<img src="demo.png" width="600" />
+<img src="demo.png" width="500" />
 
 > CLI to check Claude's service status from your terminal
 
