@@ -17,7 +17,16 @@ Examples
   $ downlaude --silent && echo "all good"
 `;
 
-const args = process.argv.slice(2);
+// Expand combined short flags: -as → -a -s
+const args: string[] = [];
+for (const arg of process.argv.slice(2)) {
+	if (/^-[a-zA-Z]{2,}$/.test(arg)) {
+		for (const ch of arg.slice(1)) args.push(`-${ch}`);
+	} else {
+		args.push(arg);
+	}
+}
+
 const known = new Set(['-a', '--all', '-s', '--silent', '-h', '--help']);
 const unknown = args.filter(a => a.startsWith('-') && !known.has(a));
 
@@ -31,8 +40,8 @@ if (args.includes('-h') || args.includes('--help')) {
 	process.exit(0);
 }
 
-const all = args.includes('-a') || args.includes('--all') || args.includes('-sa') || args.includes('-as');
-const silent = args.includes('-s') || args.includes('--silent') || args.includes('-sa') || args.includes('-as');
+const all = args.includes('-a') || args.includes('--all');
+const silent = args.includes('-s') || args.includes('--silent');
 
 if (silent) {
 	(async () => {
