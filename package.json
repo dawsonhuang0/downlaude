@@ -2,6 +2,7 @@
 	"name": "downlaude",
 	"version": "1.0.0",
 	"license": "MIT",
+	"repository": "github:dawsonhuang0/downlaude",
 	"bin": "dist/cli.js",
 	"type": "module",
 	"engines": {
