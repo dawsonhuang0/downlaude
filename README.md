@@ -2,6 +2,8 @@
 
 > CLI to check Claude's service status from your terminal
 
+![demo](demo.png)
+
 ## Install
 
 ```bash
