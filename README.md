@@ -50,8 +50,8 @@ downlaude --silent # checks Claude API + Claude Code
 Combine with `--all` to check all services:
 
 ```bash
-downlaude -s -a   # checks all services
-downlaude -sa     # you can use short flags!
+downlaude -s -a # checks all services
+downlaude -sa   # you can use short flags!
 ```
 
 ### Scripting Examples
