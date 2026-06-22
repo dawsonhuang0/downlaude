@@ -1,6 +1,6 @@
 {
 	"name": "downlaude",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"repository": "github:dawsonhuang0/downlaude",
 	"bin": "dist/cli.js",
