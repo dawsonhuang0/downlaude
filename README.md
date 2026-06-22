@@ -34,6 +34,13 @@ downlaude --silent # no output; use exit code in scripts
 | `1` | At least one outage |
 | `2` | Could not reach status page |
 
+By default `--silent` checks Claude API and Claude Code only. Combine with `--all` to check all services:
+
+```bash
+downlaude -s    # checks Claude API + Claude Code
+downlaude -s -a # checks all six services
+```
+
 ## Scripting
 
 ```bash
