@@ -4,7 +4,18 @@ import StatusRow from './statusRow.js';
 import Spinner from './spinner.js';
 import { darkTheme, detectTheme, Theme } from './theme.js';
 
-export default function App() {
+export const ALL_COMPONENTS = [
+  'claude.ai',
+  'Claude Console',
+  'Claude API',
+  'Claude Code',
+  'Claude Cowork',
+  'Claude for Government',
+];
+
+const stripSuffix = (name: string) => name.replace(/\s*\([^)]+\)$/, '');
+
+export default function App({ all = false }: { all?: boolean }) {
   const { exit } = useApp();
   const [theme, setTheme] = useState<Theme>(darkTheme);
   const [components, setComponents] = useState<any[]>([]);
@@ -19,15 +30,22 @@ export default function App() {
       try {
         const res = await fetch('https://status.anthropic.com/api/v2/components.json');
         const data = await res.json();
-        const target = data.components.filter((c: any) =>
-          c.name.includes('Claude API') || c.name.includes('Claude Code')
-        ).sort((a: any, b: any) => a.name.includes('Claude Code') ? -1 : b.name.includes('Claude Code') ? 1 : 0);
+        const target = data.components
+          .filter((c: any) =>
+            all
+              ? ALL_COMPONENTS.some(n => c.name.includes(n))
+              : c.name.includes('Claude API') || c.name.includes('Claude Code')
+          )
+          .sort((a: any, b: any) => {
+            if (all) {
+              const ai = ALL_COMPONENTS.findIndex(n => a.name.includes(n));
+              const bi = ALL_COMPONENTS.findIndex(n => b.name.includes(n));
+              return ai - bi;
+            }
+            return a.name.includes('Claude Code') ? -1 : b.name.includes('Claude Code') ? 1 : 0;
+          });
 
-        const dummies = [
-          { id: 'dummy-partial', name: 'Claude API (Dummy Partial)', status: 'partial_outage' },
-          { id: 'dummy-major', name: 'Claude API (Dummy Major)', status: 'major_outage' },
-        ];
-        setComponents([...target, ...dummies]);
+        setComponents(target);
       } catch (err) {
         setError(true);
       }
@@ -57,17 +75,21 @@ export default function App() {
   );
   if (components.length === 0) return <Text> </Text>;
 
-  const dynamicWidth = Math.max(...components.map(c => c.name.replace(' (api.anthropic.com)', '').length)) + 4;
+  const displayName = (name: string) => all ? name : stripSuffix(name);
+  const STATUS_COL_WIDTH = 16; // "✘ Partial outage"
+  const FOOTER = 'Visit https://status.claude.com/ for latest status';
+  const dynamicWidth = Math.max(...components.map(c => displayName(c.name).length)) + 4;
+  const boxWidth = Math.max(dynamicWidth + STATUS_COL_WIDTH, FOOTER.length) + 4; // +4 for padding + border
 
   return (
-    <Box flexDirection="column" paddingLeft={1} paddingRight={1} paddingTop={1} borderStyle="round" borderColor={theme.muted} width={54}>
+    <Box flexDirection="column" paddingLeft={1} paddingRight={1} paddingTop={1} borderStyle="round" borderColor={theme.muted} width={boxWidth}>
       <Text bold>
         <Text color={theme.accent}>✻</Text>
         <Text color={theme.text}> Claude Status</Text>
       </Text>
       <Box flexDirection="column" marginTop={1}>
         {components.map((comp) => (
-          <StatusRow key={comp.id} comp={comp} nameWidth={dynamicWidth} theme={theme} />
+          <StatusRow key={comp.id} comp={comp} nameWidth={dynamicWidth} theme={theme} all={all} />
         ))}
       </Box>
       <Box marginTop={1}>

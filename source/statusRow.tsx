@@ -2,7 +2,9 @@ import React from 'react';
 import { Text, Box } from 'ink';
 import { Theme } from './theme.js';
 
-export default function StatusRow({ comp, nameWidth, theme }: { comp: any; nameWidth: number; theme: Theme }) {
+const stripSuffix = (name: string) => name.replace(/\s*\([^)]+\)$/, '');
+
+export default function StatusRow({ comp, nameWidth, theme, all }: { comp: any; nameWidth: number; theme: Theme; all: boolean }) {
   let icon = '✔';
   let statusText = 'Operational';
   let color = theme.operational;
@@ -20,7 +22,7 @@ export default function StatusRow({ comp, nameWidth, theme }: { comp: any; nameW
   return (
     <Box>
       <Box width={nameWidth}>
-        <Text>{comp.name.replace(' (api.anthropic.com)', '')}</Text>
+        <Text>{all ? comp.name : stripSuffix(comp.name)}</Text>
       </Box>
       <Text color={color}>
         <Text bold>{icon}</Text>
