@@ -1,8 +1,17 @@
 {
 	"name": "downlaude",
 	"version": "1.0.2",
+	"description": "CLI to check Claude's service status from your terminal.",
 	"license": "MIT",
-	"repository": "github:dawsonhuang0/downlaude",
+	"author": "Dawson Huang",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dawsonhuang0/downlaude.git"
+	},
+	"bugs": {
+		"url": "https://github.com/dawsonhuang0/downlaude/issues"
+	},
+	"homepage": "https://github.com/dawsonhuang0/downlaude#readme",
 	"keywords": [
 		"claude",
 		"anthropic",
