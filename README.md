@@ -25,7 +25,7 @@ downlaude [options] # customize the output to what you need
 | `-s`,<br>`--silent` | No output. Exits with `0`, `1`, or `2` |
 | `-h`,<br>`--help` | Show help |
 
-For example, with `--all` flag:
+For example, with `--all` flag:  
 <img src="https://raw.githubusercontent.com/dawsonhuang0/downlaude/main/demo-all.png" width="443" />
 
 ## Scripting Friendliness
@@ -42,7 +42,7 @@ For example, with `--all` flag:
 
 By default, `--silent` checks Claude API and Claude Code only:
 ```bash
-downlaude -silent # checks Claude API + Claude Code
+downlaude --silent # checks Claude API + Claude Code
 ```
 
 Combine with `--all` to check all services:
