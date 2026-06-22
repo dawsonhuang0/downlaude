@@ -1,10 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Text, Box } from 'ink';
-import { Theme } from './theme.js';
+import React, {useState, useEffect} from 'react';
+import {Text, Box} from 'ink';
+import {Theme} from './theme.js';
 
-const SPINNER_FRAMES = ["·", "·", "✢", "✳", "✶", "✻", "✽", "✽", "✻", "✶", "✳", "✢"];
+const SPINNER_FRAMES = [
+  '·',
+  '·',
+  '✢',
+  '✳',
+  '✶',
+  '✻',
+  '✽',
+  '✽',
+  '✻',
+  '✶',
+  '✳',
+  '✢',
+];
 
-export default function Spinner({ text, theme }: { text: string; theme: Theme }) {
+export default function Spinner({text, theme}: {text: string; theme: Theme}) {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -25,7 +38,10 @@ export default function Spinner({ text, theme }: { text: string; theme: Theme })
         {text.split('').map((char, index) => {
           const isHighlighted = Math.abs(index - glimmerIndex) <= 1;
           return (
-            <Text key={index} color={isHighlighted ? theme.shimmer : theme.base}>
+            <Text
+              key={index}
+              color={isHighlighted ? theme.shimmer : theme.base}
+            >
               {char}
             </Text>
           );

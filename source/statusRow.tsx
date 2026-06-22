@@ -1,10 +1,17 @@
 import React from 'react';
-import { Text, Box } from 'ink';
-import { Theme } from './theme.js';
+import {Text, Box} from 'ink';
+import {Theme} from './theme.js';
 
 const stripSuffix = (name: string) => name.replace(/\s*\([^)]+\)$/, '');
 
-export default function StatusRow({ comp, nameWidth, statusColWidth, theme, all, layout }: {
+export default function StatusRow({
+  comp,
+  nameWidth,
+  statusColWidth,
+  theme,
+  all,
+  layout,
+}: {
   comp: any;
   nameWidth: number;
   statusColWidth: number;
@@ -38,7 +45,10 @@ export default function StatusRow({ comp, nameWidth, statusColWidth, theme, all,
         <Text>{name}</Text>
         <Box>
           <Text color={theme.muted}>{' └ '}</Text>
-          <Text color={color}><Text bold>{icon}</Text>{` ${displayStatus}`}</Text>
+          <Text color={color}>
+            <Text bold>{icon}</Text>
+            {` ${displayStatus}`}
+          </Text>
         </Box>
       </Box>
     );
@@ -50,7 +60,10 @@ export default function StatusRow({ comp, nameWidth, statusColWidth, theme, all,
         <Text>{name}</Text>
       </Box>
       <Box width={statusColWidth}>
-        <Text color={color}><Text bold>{icon}</Text>{` ${statusText}`}</Text>
+        <Text color={color}>
+          <Text bold>{icon}</Text>
+          {` ${statusText}`}
+        </Text>
       </Box>
     </Box>
   );

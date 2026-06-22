@@ -6,6 +6,7 @@ CLI to check Claude's service status from your terminal.
 ## Getting Started
 
 Run the following command to install:
+
 ```bash
 npm install --global downlaude
 ```
@@ -19,11 +20,11 @@ downlaude [options] # customize the output to what you need
 
 ### Options:
 
-| Flag & Alias | Description |
-|------|-------------|
-| `-a`,<br>`--all` | Show all Claude services |
+| Flag & Alias        | Description                            |
+| ------------------- | -------------------------------------- |
+| `-a`,<br>`--all`    | Show all Claude services               |
 | `-s`,<br>`--silent` | No output. Exits with `0`, `1`, or `2` |
-| `-h`,<br>`--help` | Show help |
+| `-h`,<br>`--help`   | Show help                              |
 
 For example, with `--all` flag:  
 <img src="https://raw.githubusercontent.com/dawsonhuang0/downlaude/main/demo-all.png" width="443" />
@@ -32,20 +33,22 @@ For example, with `--all` flag:
 
 #### No output hassle 😍 perfectly silent so you can just catch the exit code!
 
-| Exit Code | Meaning |
-|------|---------|
-| `0` | All operational |
-| `1` | At least one outage |
-| `2` | Could not reach status page |
+| Exit Code | Meaning                     |
+| --------- | --------------------------- |
+| `0`       | All operational             |
+| `1`       | At least one outage         |
+| `2`       | Could not reach status page |
 
 ### ⚠️ Scope of the Exit Code
 
 By default, `--silent` checks Claude API and Claude Code only:
+
 ```bash
 downlaude --silent # checks Claude API + Claude Code
 ```
 
 Combine with `--all` to check all services:
+
 ```bash
 downlaude -s -a   # checks all services
 downlaude -sa     # you can use short flags!

@@ -41,10 +41,10 @@ export async function detectTheme(): Promise<Theme> {
   if (!process.stdin.isTTY) return darkTheme;
 
   // Fallback to detection logic
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     process.stdin.setRawMode(true);
     process.stdout.write('\x1b]11;?\x1b\\');
-    process.stdin.once('data', (data) => {
+    process.stdin.once('data', data => {
       process.stdin.setRawMode(false);
       const res = data ? data.toString() : '';
       const match = res.match(/rgb:([0-9a-f]+)\/([0-9a-f]+)\/([0-9a-f]+)/i);
