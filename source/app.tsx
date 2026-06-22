@@ -21,6 +21,13 @@ export default function App({ all = false }: { all?: boolean }) {
   const [components, setComponents] = useState<any[]>([]);
   const [done, setDone] = useState(false);
   const [error, setError] = useState(false);
+  const [terminalWidth, setTerminalWidth] = useState(process.stdout.columns ?? 80);
+
+  useEffect(() => {
+    const onResize = () => setTerminalWidth(process.stdout.columns ?? 80);
+    process.stdout.on('resize', onResize);
+    return () => { process.stdout.off('resize', onResize); };
+  }, []);
 
   useEffect(() => {
     async function init() {
@@ -76,10 +83,29 @@ export default function App({ all = false }: { all?: boolean }) {
   if (components.length === 0) return <Text> </Text>;
 
   const displayName = (name: string) => all ? name : stripSuffix(name);
-  const STATUS_COL_WIDTH = 16; // "✘ Partial outage"
-  const FOOTER = 'Visit https://status.claude.com/ for latest status';
-  const dynamicWidth = Math.max(...components.map(c => displayName(c.name).length)) + 4;
-  const boxWidth = Math.max(dynamicWidth + STATUS_COL_WIDTH, FOOTER.length) + 4; // +4 for padding + border
+  const STACKED_PRE = 3;     // "⎿  "
+  const FOOTER_LEN = 'Visit https://status.claude.com/ for latest status'.length;
+  const BP = 4;
+  const longestName = Math.max(...components.map(c => displayName(c.name).length));
+  const statusColWidth = Math.max(...components.map((c: any) =>
+    c.status === 'major_outage' ? 14 : c.status !== 'operational' ? 16 : 13
+  ));
+
+  // Max box width = widest unwrapped line (footer or content row at max gaps)
+  const maxBoxWidth = BP + Math.max(FOOTER_LEN, longestName + statusColWidth + 7);
+  const boxWidth = Math.min(terminalWidth, maxBoxWidth);
+
+  const phase1Min = BP + longestName + statusColWidth + 1;
+  const phase2Min = BP + STACKED_PRE + statusColWidth;
+
+  const layout: 'inline_full' | 'stacked_full' | 'stacked_short' =
+    terminalWidth >= phase1Min ? 'inline_full' :
+    terminalWidth >= phase2Min ? 'stacked_full' :
+    'stacked_short';
+
+  const extra = layout === 'inline_full' ? Math.min(Math.max(boxWidth - BP - longestName - statusColWidth - 1, 0), 6) : 0;
+  const gapLeft = 1 + Math.floor(extra / 2);
+  const nameWidth = layout === 'inline_full' ? longestName + gapLeft : longestName;
 
   return (
     <Box flexDirection="column" paddingLeft={1} paddingRight={1} paddingTop={1} borderStyle="round" borderColor={theme.muted} width={boxWidth}>
@@ -89,7 +115,7 @@ export default function App({ all = false }: { all?: boolean }) {
       </Text>
       <Box flexDirection="column" marginTop={1}>
         {components.map((comp) => (
-          <StatusRow key={comp.id} comp={comp} nameWidth={dynamicWidth} theme={theme} all={all} />
+          <StatusRow key={comp.id} comp={comp} nameWidth={nameWidth} statusColWidth={statusColWidth} theme={theme} all={all} layout={layout} />
         ))}
       </Box>
       <Box marginTop={1}>
