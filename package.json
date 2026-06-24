@@ -55,6 +55,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "lint": "prettier --check . && xo"
   },
   "files": [
@@ -69,6 +70,7 @@
     "@sindresorhus/tsconfig": "^8.1.0",
     "@types/node": "^26.0.0",
     "@types/react": "^19.2.17",
+    "@vitest/coverage-v8": "^4.1.9",
     "eslint-config-xo-react": "^0.30.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^7.1.1",
