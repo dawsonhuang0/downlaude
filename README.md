@@ -20,14 +20,15 @@ downlaude [options] # customize the output to what you need
 
 ### Options:
 
-| Flag & Alias        | Description                            |
-| ------------------- | -------------------------------------- |
-| `-a`,<br>`--all`    | Show all Claude services               |
-| `-s`,<br>`--silent` | No output. Exits with `0`, `1`, or `2` |
-| `-h`,<br>`--help`   | Show help                              |
+| Flag & Alias        | Description                                      |
+| ------------------- | ------------------------------------------------ |
+| `-a`,<br>`--all`    | Show all Claude services                         |
+| `-s`,<br>`--silent` | No output. Exits with `0`, `1`, or `2`           |
+| `-h`,<br>`--help`   | Show help                                        |
+| `--clawd`           | Show Clawd mascot (cries when a service is down) |
 
-For example, with `--all` flag:  
-<img src="https://raw.githubusercontent.com/dawsonhuang0/downlaude/main/demo-all.png" width="443" />
+For example, with `--all` and `--clawd` flags:  
+<img src="https://raw.githubusercontent.com/dawsonhuang0/downlaude/main/demo-all.png" width="518" />
 
 ## Scripting Friendliness
 
