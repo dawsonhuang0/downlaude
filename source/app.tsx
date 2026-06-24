@@ -15,7 +15,7 @@ export const ALL_COMPONENTS = [
 
 const stripSuffix = (name: string) => name.replace(/\s*\([^)]+\)$/, '');
 
-export default function App({all = false}: {all?: boolean}) {
+export default function App({all = false, clawd = false}: {all?: boolean; clawd?: boolean}) {
   const {exit} = useApp();
   const [theme, setTheme] = useState<Theme>(darkTheme);
   const [components, setComponents] = useState<any[]>([]);
@@ -109,7 +109,7 @@ export default function App({all = false}: {all?: boolean}) {
 
   // Max box width = widest unwrapped line (footer or content row at max gaps)
   const maxBoxWidth =
-    BP + Math.max(FOOTER_LEN, longestName + statusColWidth + 7);
+    BP + Math.max(FOOTER_LEN, longestName + statusColWidth + 7, ...(clawd ? [longestName + statusColWidth + 9 + 11] : []));
   const boxWidth = Math.min(terminalWidth, maxBoxWidth);
 
   const phase1Min = BP + longestName + statusColWidth + 1;
@@ -133,6 +133,78 @@ export default function App({all = false}: {all?: boolean}) {
   const nameWidth =
     layout === 'inline_full' ? longestName + gapLeft : longestName;
 
+  const LOGO = [' ▐▛███▜▌', '▝▜█████▛▘', '  ▘▘ ▝▝'];
+  const LOGO_COLOR = '#ca7c5e';
+  const TEAR_COLOR = '#55bbff';
+  const isAppleTerminal = process.env['TERM_PROGRAM'] === 'Apple_Terminal';
+  const isLightTheme = theme.text === '#000000';
+  const isCrying = components.some(c => c.status !== 'operational');
+  const LOGO_WIDTH = 9;
+  const logoGap = boxWidth - 4 - nameWidth - statusColWidth - LOGO_WIDTH - 3;
+  const showLogo = clawd && layout === 'inline_full' && logoGap >= 4;
+
+  const capRow = (
+    <Box>
+      <Text color={LOGO_COLOR}>{' ▐'}</Text>
+      <Text color={'#000000'} backgroundColor={LOGO_COLOR}>{'▗'}</Text>
+      <Text color={LOGO_COLOR}>{'███'}</Text>
+      <Text color={'#000000'} backgroundColor={LOGO_COLOR}>{'▖'}</Text>
+      <Text color={LOGO_COLOR}>{'▌'}</Text>
+    </Box>
+  );
+
+  const cryBodyRow = (
+    <Box>
+      <Text color={LOGO_COLOR}>{'▝▜'}</Text>
+      <Text color={TEAR_COLOR} backgroundColor={LOGO_COLOR}>{'▐'}</Text>
+      <Text color={LOGO_COLOR}>{'███'}</Text>
+      <Text color={TEAR_COLOR} backgroundColor={LOGO_COLOR}>{'▌'}</Text>
+      <Text color={LOGO_COLOR}>{'▛▘'}</Text>
+    </Box>
+  );
+
+  const logoContent = isAppleTerminal ? (
+    <>
+      <Box>
+        <Text color={LOGO_COLOR}>{'▗'}</Text>
+        <Text backgroundColor={LOGO_COLOR}>{' '}</Text>
+        <Text color={'#000000'} backgroundColor={LOGO_COLOR}>{'▗'}</Text>
+        <Text backgroundColor={LOGO_COLOR}>{'   '}</Text>
+        <Text color={'#000000'} backgroundColor={LOGO_COLOR}>{'▖'}</Text>
+        <Text backgroundColor={LOGO_COLOR}>{' '}</Text>
+        <Text color={LOGO_COLOR}>{'▖'}</Text>
+      </Box>
+      {isCrying ? (
+        <Box>
+          <Text>{' '}</Text>
+          <Text backgroundColor={LOGO_COLOR}>{' '}</Text>
+          <Text backgroundColor={TEAR_COLOR}>{' '}</Text>
+          <Text backgroundColor={LOGO_COLOR}>{'   '}</Text>
+          <Text backgroundColor={TEAR_COLOR}>{' '}</Text>
+          <Text backgroundColor={LOGO_COLOR}>{' '}</Text>
+        </Box>
+      ) : (
+        <Box>
+          <Text>{' '}</Text>
+          <Text backgroundColor={LOGO_COLOR}>{'       '}</Text>
+        </Box>
+      )}
+      <Text color={LOGO_COLOR}>{'  ▘▘ ▝▝'}</Text>
+    </>
+  ) : isLightTheme ? (
+    <>
+      {capRow}
+      {isCrying ? cryBodyRow : <Text color={LOGO_COLOR}>{'▝▜█████▛▘'}</Text>}
+      <Text color={LOGO_COLOR}>{'  ▘▘ ▝▝'}</Text>
+    </>
+  ) : (
+    <>
+      {capRow}
+      {isCrying ? cryBodyRow : <Text color={LOGO_COLOR}>{LOGO[1]}</Text>}
+      <Text color={LOGO_COLOR}>{LOGO[2]}</Text>
+    </>
+  );
+
   return (
     <Box
       flexDirection="column"
@@ -145,20 +217,27 @@ export default function App({all = false}: {all?: boolean}) {
     >
       <Text bold>
         <Text color={theme.accent}>✻</Text>
-        <Text color={theme.text}> Claude Status</Text>
+        <Text> Claude Status</Text>
       </Text>
-      <Box flexDirection="column" marginTop={1}>
-        {components.map(comp => (
-          <StatusRow
-            key={comp.id}
-            comp={comp}
-            nameWidth={nameWidth}
-            statusColWidth={statusColWidth}
-            theme={theme}
-            all={all}
-            layout={layout}
-          />
-        ))}
+      <Box marginTop={1} flexDirection="row">
+        <Box flexDirection="column">
+          {components.map(comp => (
+            <StatusRow
+              key={comp.id}
+              comp={comp}
+              nameWidth={nameWidth}
+              statusColWidth={statusColWidth}
+              theme={theme}
+              all={all}
+              layout={layout}
+            />
+          ))}
+        </Box>
+        {showLogo && (
+          <Box flexDirection="column" marginLeft={logoGap} marginTop={all ? 1 : -1}>
+            {logoContent}
+          </Box>
+        )}
       </Box>
       <Box marginTop={1}>
         <Text color={theme.muted}>

@@ -10,6 +10,7 @@ Usage
 Options
   -a, --all     Show all Claude services
   -s, --silent  No output; exit 0 if operational, 1 if outage, 2 if unreachable
+      --clawd   Show the clawd logo
 
 Examples
   $ downlaude
@@ -27,7 +28,7 @@ for (const arg of process.argv.slice(2)) {
   }
 }
 
-const known = new Set(['-a', '--all', '-s', '--silent', '-h', '--help']);
+const known = new Set(['-a', '--all', '-s', '--silent', '-h', '--help', '--clawd']);
 const unknown = args.filter(a => a.startsWith('-') && !known.has(a));
 
 if (unknown.length > 0) {
@@ -42,6 +43,7 @@ if (args.includes('-h') || args.includes('--help')) {
 
 const all = args.includes('-a') || args.includes('--all');
 const silent = args.includes('-s') || args.includes('--silent');
+const clawd = args.includes('--clawd');
 
 if (silent) {
   (async () => {
@@ -64,7 +66,7 @@ if (silent) {
     }
   })();
 } else {
-  render(<App all={all} />)
+  render(<App all={all} clawd={clawd} />)
     .waitUntilExit()
     .then(() => {
       process.exit(0);
