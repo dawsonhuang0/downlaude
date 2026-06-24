@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {Text, Box, useApp} from 'ink';
 import StatusRow from './statusRow.js';
 import Spinner from './spinner.js';
