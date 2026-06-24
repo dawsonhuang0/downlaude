@@ -86,7 +86,7 @@
       "unicorn/expiring-todo-comments": "off"
     },
     "ignores": [
-      "test.tsx"
+      "tests/**"
     ]
   },
   "prettier": {
