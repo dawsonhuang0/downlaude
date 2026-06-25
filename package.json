@@ -100,5 +100,9 @@
     "bracketSpacing": false,
     "arrowParens": "avoid",
     "trailingComma": "all"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "unrs-resolver@1.12.2": true
   }
 }
