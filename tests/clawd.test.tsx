@@ -24,7 +24,7 @@ test('clawd: logo hidden when clawd=false', async () => {
 test('clawd: logo hidden when terminal too narrow', async () => {
   const orig = globalThis.fetch;
   const origColumns = process.stdout.columns;
-  Object.defineProperty(process.stdout, 'columns', {value: 40, configurable: true, writable: true});
+  Object.defineProperty(process.stdout, 'columns', {value: 35, configurable: true, writable: true});
   mockFetch();
   const {frames} = render(<App clawd />);
   await new Promise(r => setTimeout(r, 500));

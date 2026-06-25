@@ -107,9 +107,18 @@ export default function App({all = false, clawd = false}: {all?: boolean; clawd?
     ),
   );
 
+  const LOGO = [' ▐▛███▜▌', '▝▜█████▛▘', '  ▘▘ ▝▝'];
+  const LOGO_COLOR = '#ca7c5e';
+  const TEAR_COLOR = '#55bbff';
+  const LOGO_WIDTH = 9;
+  const isAppleTerminal = process.env['TERM_PROGRAM'] === 'Apple_Terminal';
+  const isLightTheme = theme.text === '#000000';
+  const isCrying = components.some(c => c.status !== 'operational');
+
   // Max box width = widest unwrapped line (footer or content row at max gaps)
+  // Clawd max gaps: gapL=4, gapM=4, gapR_visual=4 (gapR_code=3 + paddingRight=1) → total 11
   const maxBoxWidth =
-    BP + Math.max(FOOTER_LEN, longestName + statusColWidth + 7, ...(clawd ? [longestName + statusColWidth + 9 + 11] : []));
+    BP + Math.max(FOOTER_LEN, longestName + statusColWidth + 7, ...(clawd ? [longestName + statusColWidth + LOGO_WIDTH + 11] : []));
   const boxWidth = Math.min(terminalWidth, maxBoxWidth);
 
   const phase1Min = BP + longestName + statusColWidth + 1;
@@ -122,26 +131,32 @@ export default function App({all = false, clawd = false}: {all?: boolean; clawd?
       ? 'stacked_full'
       : 'stacked_short';
 
+  // Normal (no-clawd) layout gap
   const extra =
     layout === 'inline_full'
-      ? Math.min(
-          Math.max(boxWidth - BP - longestName - statusColWidth - 1, 0),
-          6,
-        )
+      ? Math.min(Math.max(boxWidth - BP - longestName - statusColWidth - 1, 0), 6)
       : 0;
   const gapLeft = 1 + Math.floor(extra / 2);
-  const nameWidth =
-    layout === 'inline_full' ? longestName + gapLeft : longestName;
 
-  const LOGO = [' ▐▛███▜▌', '▝▜█████▛▘', '  ▘▘ ▝▝'];
-  const LOGO_COLOR = '#ca7c5e';
-  const TEAR_COLOR = '#55bbff';
-  const isAppleTerminal = process.env['TERM_PROGRAM'] === 'Apple_Terminal';
-  const isLightTheme = theme.text === '#000000';
-  const isCrying = components.some(c => c.status !== 'operational');
-  const LOGO_WIDTH = 9;
-  const logoGap = boxWidth - 4 - nameWidth - statusColWidth - LOGO_WIDTH - 3;
-  const showLogo = clawd && layout === 'inline_full' && logoGap >= 4;
+  // Clawd three-way gaps: 444→344→343→333→233→232→222→122→121→111→hide
+  // Shrink order L→R→M per cycle. gapL=4 and gapR_visual=4 at ideal.
+  // gapR_code = gapR_visual - 1 (box paddingRight=1 counts toward visual gap)
+  const innerWidth = boxWidth - 4;
+  const availableGap = innerWidth - longestName - statusColWidth - LOGO_WIDTH;
+  const showLogo = clawd && layout === 'inline_full' && availableGap >= 2;
+  let logoGapL = 0, logoGapR = 0;
+  if (showLogo) {
+    const totalGap = Math.min(availableGap, 11);
+    const pos = 11 - totalGap; // 0=max(443-code/444-visual) to 9=min(110-code/111-visual)
+    logoGapL = 4 - Math.floor((pos + 2) / 3);
+    logoGapR = 3 - Math.floor((pos + 1) / 3);
+  }
+
+  const nameWidth = showLogo
+    ? longestName + logoGapL
+    : layout === 'inline_full'
+    ? longestName + gapLeft
+    : longestName;
 
   const capRow = (
     <Box>
@@ -234,9 +249,12 @@ export default function App({all = false, clawd = false}: {all?: boolean; clawd?
           ))}
         </Box>
         {showLogo && (
-          <Box flexDirection="column" marginLeft={logoGap} marginTop={all ? 1 : -1}>
-            {logoContent}
-          </Box>
+          <>
+            <Box flexGrow={1} />
+            <Box flexDirection="column" marginRight={logoGapR} marginTop={all ? 1 : -1}>
+              {logoContent}
+            </Box>
+          </>
         )}
       </Box>
       <Box marginTop={1}>

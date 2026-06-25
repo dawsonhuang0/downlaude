@@ -9,7 +9,7 @@ Usage
 Options
   -a, --all     Show all Claude services
   -s, --silent  No output; exit 0 if operational, 1 if outage, 2 if unreachable
-      --clawd   Show the clawd logo
+      --clawd   Show the clawd logo (cry when service down)
 
 Examples
   $ downlaude
