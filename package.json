@@ -56,7 +56,8 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "lint": "prettier --check . && xo"
+    "lint": "prettier --check . && xo",
+    "pubci": "git push && git push --tags"
   },
   "files": [
     "dist"
